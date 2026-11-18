@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ENVIRONMENT_PRESETS, presetOf, type EnvironmentPreset } from "@noburi/core";
+import { ENVIRONMENT_PRESETS, presetOf, type EnvironmentPreset } from "@kobo/core";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {

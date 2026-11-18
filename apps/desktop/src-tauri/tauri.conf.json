@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "Noburi",
+  "productName": "Kobo",
   "version": "0.1.0",
-  "identifier": "io.github.jiordiviera.noburi",
+  "identifier": "io.github.jiordiviera.kobo",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420",
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Noburi",
+        "title": "Kōbō",
         "width": 1440,
         "height": 900,
         "minWidth": 1024,

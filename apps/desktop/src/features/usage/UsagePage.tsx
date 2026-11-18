@@ -41,7 +41,7 @@ export function UsagePage() {
       <main className="flex flex-1 items-center justify-center p-8">
         <Alert className="max-w-lg" variant={error ? "destructive" : "default"}>
           <AlertTitle>
-            {error ? "Could not read usage" : "The Noburi runtime is not connected"}
+            {error ? "Could not read usage" : "The Kōbō runtime is not connected"}
           </AlertTitle>
           <AlertDescription>
             {error ?? "Open the app with pnpm desktop, or pnpm dev for the browser."}
@@ -162,7 +162,7 @@ export function UsagePage() {
                 </table>
               </div>
               <p className="border-t px-5 py-3 text-xs text-muted-foreground">
-                Models are the aliases Noburi asked for (sonnet, opus, haiku); Claude Code resolves
+                Models are the aliases Kōbō asked for (sonnet, opus, haiku); Claude Code resolves
                 them for your plan.
               </p>
             </section>

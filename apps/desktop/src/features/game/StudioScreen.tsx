@@ -180,7 +180,7 @@ export function StudioScreen({
                     detail={
                       e.path ??
                       (e.installed
-                        ? "installed · Noburi cannot drive it yet"
+                        ? "installed · Kōbō cannot drive it yet"
                         : e.id === "codex"
                           ? "npm install -g @openai/codex"
                           : e.id === "gemini"
@@ -207,7 +207,7 @@ export function StudioScreen({
                   {checking ? "Checking…" : "Check again"}
                 </button>
                 <p className="text-sm text-[#A7B3BE]">
-                  Noburi uses the CLIs you installed and their own logins. It stores no token.
+                  Kōbō uses the CLIs you installed and their own logins. It stores no token.
                 </p>
               </section>
             </div>

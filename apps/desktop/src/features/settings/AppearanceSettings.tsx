@@ -8,7 +8,7 @@ import {
   themePreset,
   UI_FONTS,
   type Appearance,
-} from "@noburi/ui";
+} from "@kobo/ui";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -143,7 +143,7 @@ export function AppearanceSettings({ appearance, update, selectTheme, reset }: P
       <Card>
         <CardHeader>
           <CardTitle>Typography</CardTitle>
-          <CardDescription>All fonts are bundled with Noburi and work offline.</CardDescription>
+          <CardDescription>All fonts are bundled with Kōbō and work offline.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-6">
           <div className="grid gap-4 sm:grid-cols-2">

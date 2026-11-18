@@ -1,6 +1,6 @@
 /**
  * Built-in agent profiles. The model is a Claude Code alias ("sonnet", "opus", "haiku") so it follows
- * whatever the user's Claude Code and plan resolve it to; Noburi does not hard-code model versions.
+ * whatever the user's Claude Code and plan resolve it to; Kōbō does not hard-code model versions.
  */
 export interface AgentProfile {
   id: string;

@@ -1,11 +1,6 @@
 import type { Server } from "node:http";
 import { afterEach, describe, expect, it } from "vite-plus/test";
-import type {
-  ClaudeRunOptions,
-  RunEvent,
-  SessionInfo,
-  SessionSource,
-} from "@noburi/provider-claude";
+import type { ClaudeRunOptions, RunEvent, SessionInfo, SessionSource } from "@kobo/provider-claude";
 import { createApi } from "./api.ts";
 import { RunManager, type RunRecord } from "./runs.ts";
 import { createRuntimeServer, listenLoopback } from "./server.ts";
@@ -162,7 +157,7 @@ describe("resuming sessions", () => {
     expect((await post(call, { sessionId: HOT, prompt: "go", force: true })).status).toBe(201);
   });
 
-  it("refuses to write to a session Noburi is already continuing", async () => {
+  it("refuses to write to a session Kōbō is already continuing", async () => {
     const { call } = await start();
     expect((await post(call, { sessionId: OLD, prompt: "one" })).status).toBe(201);
     const second = await post(call, { sessionId: OLD, prompt: "two" });

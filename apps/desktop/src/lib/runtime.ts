@@ -1,9 +1,9 @@
 import { invoke, isTauri } from "@tauri-apps/api/core";
-import type { AgentEnvironment } from "@noburi/core";
-import type { ProjectSummary, RunEvent, TranscriptEntry } from "@noburi/provider-claude";
+import type { AgentEnvironment } from "@kobo/core";
+import type { ProjectSummary, RunEvent, TranscriptEntry } from "@kobo/provider-claude";
 
 export type { AgentEnvironment, ProjectSummary, RunEvent, TranscriptEntry };
-export type { SessionSummary, TranscriptPart } from "@noburi/provider-claude";
+export type { SessionSummary, TranscriptPart } from "@kobo/provider-claude";
 
 export type RunStatus = "running" | "cancelling" | "succeeded" | "failed" | "cancelled";
 export type RunStreamEvent = RunEvent | { type: "run.finished"; status: RunStatus };
@@ -188,8 +188,8 @@ interface Connection {
   token: string;
 }
 
-const ENV_URL = import.meta.env.VITE_NOBURI_RUNTIME_URL;
-const ENV_TOKEN = import.meta.env.VITE_NOBURI_RUNTIME_TOKEN;
+const ENV_URL = import.meta.env.VITE_KOBO_RUNTIME_URL;
+const ENV_TOKEN = import.meta.env.VITE_KOBO_RUNTIME_TOKEN;
 const IN_TAURI = isTauri();
 
 /** True when a runtime can be reached: inside the desktop shell, or via `pnpm dev` in a browser. */
@@ -214,13 +214,13 @@ function headers(token: string): HeadersInit {
 
 async function call<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (!runtimeConfigured)
-    throw new RuntimeError(0, "The Noburi runtime is not running.", "no_runtime");
+    throw new RuntimeError(0, "The Kōbō runtime is not running.", "no_runtime");
   const { url, token } = await connect();
   let res: Response;
   try {
     res = await fetch(`${url}${path}`, { ...init, headers: headers(token) });
   } catch {
-    throw new RuntimeError(0, "Cannot reach the Noburi runtime.", "unreachable");
+    throw new RuntimeError(0, "Cannot reach the Kōbō runtime.", "unreachable");
   }
   const body: unknown = await res.json().catch(() => ({}));
   if (!res.ok) {

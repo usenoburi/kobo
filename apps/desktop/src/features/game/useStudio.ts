@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { runtime, type Agent, type Issue, type MissionView } from "@/lib/runtime";
 import { pullRequestUrl } from "./scene";
 
-const REPO_KEY = "noburi.game.repo";
-const WANDER_KEY = "noburi.game.wander";
+const REPO_KEY = "kobo.game.repo";
+const WANDER_KEY = "kobo.game.wander";
 
 function read(key: string): string | null {
   try {

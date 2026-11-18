@@ -5,7 +5,7 @@ import {
   type AgentEnvironment,
   type EventType,
   type TaskStatus,
-} from "@noburi/core";
+} from "@kobo/core";
 import { agentById, AGENTS } from "./agents.ts";
 import type { RunManager, RunRecord } from "./runs.ts";
 import type { EventRow, MissionRow, PlannedTask, Store, TaskRow } from "./store.ts";
@@ -60,7 +60,7 @@ export function buildTaskPrompt(
     .filter((t) => task.dependsOn.includes(t.id) && t.resultText)
     .map((t) => `- ${t.title}:\n${(t.resultText ?? "").slice(0, MAX_PREVIOUS_RESULT)}`);
   return [
-    `You are the ${agent?.name ?? "agent"} in a Noburi mission. ${agent?.role ?? ""}`.trim(),
+    `You are the ${agent?.name ?? "agent"} in a Kōbō mission. ${agent?.role ?? ""}`.trim(),
     `Mission objective: ${mission.objective}`,
     `Your task (${task.position + 1} of ${tasks.length}): ${task.title}`,
     task.instructions,

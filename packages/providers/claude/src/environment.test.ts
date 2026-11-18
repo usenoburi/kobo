@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { ENVIRONMENT_PRESETS, presetOf } from "@noburi/core";
+import { ENVIRONMENT_PRESETS, presetOf } from "@kobo/core";
 import { sdkEnvironmentOptions } from "./environment.ts";
 
 describe("sdkEnvironmentOptions", () => {

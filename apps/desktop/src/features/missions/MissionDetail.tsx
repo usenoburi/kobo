@@ -15,7 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Office } from "../office/Office";
 import { deriveOffice } from "../office/officeState";
-import { presetOf } from "@noburi/core";
+import { presetOf } from "@kobo/core";
 import { EnvironmentPicker, PRESET_LABEL } from "./EnvironmentPicker";
 import { PlanEditor } from "./PlanEditor";
 import { MISSION_STATUS, TASK_STATUS } from "./status";
@@ -229,7 +229,7 @@ export function MissionDetail({ missionId, agents, onChanged, onDeleted }: Props
                 <Alert>
                   <AlertTitle>This mission was interrupted</AlertTitle>
                   <AlertDescription>
-                    Noburi stopped while it was running. Nothing is restarted automatically; the
+                    Kōbō stopped while it was running. Nothing is restarted automatically; the
                     history below is what happened before the interruption.
                   </AlertDescription>
                 </Alert>

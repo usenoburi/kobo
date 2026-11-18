@@ -53,7 +53,7 @@ await build({
 console.log("bundled runtime.mjs");
 
 const name = `node-v${NODE_VERSION}-linux-${arch}`;
-const cache = join(tmpdir(), "noburi-build");
+const cache = join(tmpdir(), "kobo-build");
 const archive = join(cache, `${name}.tar.xz`);
 mkdirSync(cache, { recursive: true });
 if (!existsSync(archive)) {

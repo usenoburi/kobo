@@ -1,5 +1,5 @@
 {
-  "name": "@noburi/runtime",
+  "name": "@kobo/runtime",
   "version": "0.1.0",
   "private": true,
   "license": "Apache-2.0",
@@ -9,8 +9,8 @@
     "start": "vpx src/main.ts"
   },
   "dependencies": {
-    "@noburi/core": "workspace:*",
-    "@noburi/provider-claude": "workspace:*",
+    "@kobo/core": "workspace:*",
+    "@kobo/provider-claude": "workspace:*",
     "zod": "4.6.7"
   }
 }

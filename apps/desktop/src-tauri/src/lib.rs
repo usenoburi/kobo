@@ -1,4 +1,4 @@
-//! Desktop shell: owns the window and the lifetime of the local Noburi runtime.
+//! Desktop shell: owns the window and the lifetime of the local Kōbō runtime.
 //!
 //! The runtime is a separate Node process bound to 127.0.0.1 with an ephemeral token. The shell starts
 //! it, reads its single ready line, and hands port and token to the webview through `runtime_info`.
@@ -36,7 +36,7 @@ fn spawn_runtime(app: &tauri::AppHandle) -> std::io::Result<Child> {
         let workspace = concat!(env!("CARGO_MANIFEST_DIR"), "/../../..");
         let mut command = Command::new("pnpm");
         command
-            .args(["--filter", "@noburi/runtime", "start"])
+            .args(["--filter", "@kobo/runtime", "start"])
             .current_dir(workspace);
         command
     } else {
@@ -51,13 +51,13 @@ fn spawn_runtime(app: &tauri::AppHandle) -> std::io::Result<Child> {
             .arg("--disable-warning=ExperimentalWarning")
             .arg(dir.join("runtime.mjs"))
             // Use the user's installed Claude Code CLI: the SDK's own binary is not bundled.
-            .env("NOBURI_PACKAGED", "1");
+            .env("KOBO_PACKAGED", "1");
         command
     };
     command
-        .env("NOBURI_ALLOWED_ORIGINS", ALLOWED_ORIGINS)
+        .env("KOBO_ALLOWED_ORIGINS", ALLOWED_ORIGINS)
         // The runtime exits when this pipe closes, so a crashed shell never leaves it running.
-        .env("NOBURI_EXIT_ON_STDIN_CLOSE", "1")
+        .env("KOBO_EXIT_ON_STDIN_CLOSE", "1")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::inherit());
@@ -181,7 +181,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![runtime_info])
         .build(tauri::generate_context!())
-        .expect("error while building the Noburi desktop shell");
+        .expect("error while building the Kōbō desktop shell");
 
     app.run(|handle, event| {
         if let RunEvent::Exit = event {

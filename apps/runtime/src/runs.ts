@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
-import type { AgentEnvironment } from "@noburi/core";
-import type { ClaudeRunOptions, RunEvent } from "@noburi/provider-claude";
+import type { AgentEnvironment } from "@kobo/core";
+import type { ClaudeRunOptions, RunEvent } from "@kobo/provider-claude";
 
 export type RunStatus = "running" | "cancelling" | "succeeded" | "failed" | "cancelled";
 
@@ -57,7 +57,7 @@ export class RunManager {
     return run.id;
   }
 
-  /** Session ids a run started by Noburi is currently writing to. */
+  /** Session ids a run started by Kōbō is currently writing to. */
   activeSessionIds(): Set<string> {
     const ids = new Set<string>();
     for (const run of this.#runs.values()) {

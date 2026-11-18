@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
-import { mkdirSync } from "node:fs";
+import { existsSync, mkdirSync, renameSync } from "node:fs";
 import { homedir } from "node:os";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import {
   AgentEnvironment,
@@ -9,7 +9,7 @@ import {
   EventType,
   MissionStatus,
   TaskStatus,
-} from "@noburi/core";
+} from "@kobo/core";
 import { z } from "zod";
 
 export interface MissionRow {
@@ -116,15 +116,52 @@ create table if not exists artifacts (
 );
 `;
 
-/** Default data location per OS; NOBURI_DATA_DIR overrides it. */
-export function defaultDatabasePath(env: NodeJS.ProcessEnv = process.env): string {
-  if (env["NOBURI_DATA_DIR"]) return join(env["NOBURI_DATA_DIR"], "noburi.db");
+/** Data folder per OS, under the given folder name ("Kobo" on macOS/Windows, lowercase on Linux). */
+function dataFolder(name: string, env: NodeJS.ProcessEnv, platform: NodeJS.Platform): string {
   const home = homedir();
-  if (process.platform === "darwin")
-    return join(home, "Library", "Application Support", "Noburi", "noburi.db");
-  if (process.platform === "win32")
-    return join(env["APPDATA"] ?? join(home, "AppData", "Roaming"), "Noburi", "noburi.db");
-  return join(env["XDG_DATA_HOME"] ?? join(home, ".local", "share"), "noburi", "noburi.db");
+  if (platform === "darwin") return join(home, "Library", "Application Support", name);
+  if (platform === "win32") return join(env["APPDATA"] ?? join(home, "AppData", "Roaming"), name);
+  return join(env["XDG_DATA_HOME"] ?? join(home, ".local", "share"), name.toLowerCase());
+}
+
+/** Default data location per OS; KOBO_DATA_DIR (or the older NOBURI_DATA_DIR) overrides it. */
+export function defaultDatabasePath(
+  env: NodeJS.ProcessEnv = process.env,
+  platform: NodeJS.Platform = process.platform,
+): string {
+  const override = env["KOBO_DATA_DIR"] ?? env["NOBURI_DATA_DIR"];
+  if (override) return join(override, "kobo.db");
+  return join(dataFolder("Kobo", env, platform), "kobo.db");
+}
+
+/** Where the app kept its data while it was called Noburi. */
+export function legacyDatabasePath(
+  env: NodeJS.ProcessEnv = process.env,
+  platform: NodeJS.Platform = process.platform,
+): string {
+  const override = env["KOBO_DATA_DIR"] ?? env["NOBURI_DATA_DIR"];
+  if (override) return join(override, "noburi.db");
+  return join(dataFolder("Noburi", env, platform), "noburi.db");
+}
+
+/**
+ * Moves the data of a Noburi install to the Kōbō location, once: the whole folder (database and
+ * repository clones), then the database files to their new name. Does nothing when the new
+ * database already exists or there is nothing to move.
+ */
+export function migrateLegacyData(databasePath: string, legacyPath: string): boolean {
+  if (existsSync(databasePath) || !existsSync(legacyPath)) return false;
+  const folder = dirname(databasePath);
+  const legacyFolder = dirname(legacyPath);
+  if (!existsSync(folder) && folder !== legacyFolder) {
+    mkdirSync(dirname(folder), { recursive: true });
+    renameSync(legacyFolder, folder);
+  }
+  const moved = join(folder, basename(legacyPath));
+  for (const suffix of ["", "-wal", "-shm"]) {
+    if (existsSync(moved + suffix)) renameSync(moved + suffix, databasePath + suffix);
+  }
+  return existsSync(databasePath);
 }
 
 type Row = Record<string, unknown>;

@@ -9,8 +9,8 @@ import {
   RECENT_ACTIVITY_MS,
   type DiscoveryFs,
   type SessionSource,
-} from "@noburi/provider-claude";
-import { AgentEnvironment } from "@noburi/core";
+} from "@kobo/provider-claude";
+import { AgentEnvironment } from "@kobo/core";
 import { AGENTS, agentById } from "./agents.ts";
 import {
   engineStatus,
@@ -186,7 +186,7 @@ export function createApi(deps: ApiDeps): ApiHandler {
         if (!info.cwd) throw new HttpError(409, "this session has no recorded folder", "no_cwd");
         cwd = info.cwd;
         if (!fork && deps.runs.activeSessionIds().has(sessionId)) {
-          throw new HttpError(409, "Noburi is already continuing this session", "already_running");
+          throw new HttpError(409, "Kōbō is already continuing this session", "already_running");
         }
         if (!fork && !force && now() - info.lastModified < RECENT_ACTIVITY_MS) {
           throw new HttpError(409, "this session was written to moments ago", "recently_active");

@@ -1,6 +1,6 @@
-# Noburi: game design
+# Kōbō: game design
 
-Noburi is a management game where you are the project lead and your staff are real Claude Code agents.
+Kōbō is a management game where you are the project lead and your staff are real Claude Code agents.
 Like a studio tycoon game, except the work done in the game is real: real issues, real branches, real pull
 requests.
 
@@ -35,7 +35,7 @@ may wander.
 
 ## GitHub
 
-- Everything goes through the user's own `gh` login. Noburi stores no token.
+- Everything goes through the user's own `gh` login. Kōbō stores no token.
 - Reading (issues, pull requests, checks, comments) never asks.
 - Writing (push, open a pull request, comment) always asks, as above. Merge stays with the player.
 - GitLab merge requests later, through `glab`, behind the same "forge" interface.
@@ -48,7 +48,7 @@ may wander.
 
 ## First version
 
-One office, one developer agent, one connected repository (`useburoo/noburi-playground`, private, with
+One office, one developer agent, one connected repository (`usenoburi/noburi-playground`, private, with
 sample issues). The loop: issue on the board → agent takes it → branch → pull request after your approval → CI
 lights → you merge → done. A reviewer agent, XP and furniture come once this loop is fun.
 

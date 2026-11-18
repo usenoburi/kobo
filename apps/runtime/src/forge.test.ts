@@ -3,7 +3,7 @@ import type { Server } from "node:http";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vite-plus/test";
-import type { ClaudeRunOptions, RunEvent, SessionSource } from "@noburi/provider-claude";
+import type { ClaudeRunOptions, RunEvent, SessionSource } from "@kobo/provider-claude";
 import { createApi } from "./api.ts";
 import { engineStatus, forgeStatus, GitHubForge, issueInstructions, type Exec } from "./forge.ts";
 import { MissionService } from "./missions.ts";
@@ -42,7 +42,7 @@ function fakeGh() {
 describe("GitHub forge", () => {
   it("reads open issues through gh and clones a repository only once", async () => {
     const { exec, calls } = fakeGh();
-    const forge = new GitHubForge(exec, mkdtempSync(join(tmpdir(), "noburi-ws-")));
+    const forge = new GitHubForge(exec, mkdtempSync(join(tmpdir(), "kobo-ws-")));
     expect(await forge.listIssues("o/r")).toEqual([ISSUE]);
     const first = await forge.workspace("o/r");
     expect(await forge.workspace("o/r")).toBe(first);
@@ -61,7 +61,7 @@ describe("GitHub forge", () => {
 
   it("asks the agent for a branch and a pull request, never a merge", () => {
     const text = issueInstructions("o/r", ISSUE);
-    expect(text).toContain("noburi/issue-1");
+    expect(text).toContain("kobo/issue-1");
     expect(text).toContain("Closes #1");
     expect(text).toContain("Do not merge anything.");
     expect(text).toContain("no AI co-author");
@@ -100,7 +100,7 @@ async function start() {
     info: async () => undefined,
     messages: async () => [],
   };
-  const forge = new GitHubForge(fakeGh().exec, mkdtempSync(join(tmpdir(), "noburi-ws-")));
+  const forge = new GitHubForge(fakeGh().exec, mkdtempSync(join(tmpdir(), "kobo-ws-")));
   const api = createApi({ sessions, runs, missions: { service, store }, forge });
   server = createRuntimeServer({ token: "t", allowedOrigins: [], api });
   const base = `http://127.0.0.1:${await listenLoopback(server)}`;
@@ -151,7 +151,7 @@ const prExec: Exec = async (_command, args) => {
     body: "Closes #1",
     url: "https://github.com/o/r/pull/5",
     state: "OPEN",
-    headRefName: "noburi/issue-1",
+    headRefName: "kobo/issue-1",
     additions: 8,
     deletions: 1,
     changedFiles: 2,
@@ -173,7 +173,7 @@ const cliExec: Exec = async (command, args) => {
 describe("pull requests and connections", () => {
   it("reads a pull request with its checks and the start of its diff", async () => {
     const pr = await new GitHubForge(prExec, tmpdir()).pullRequest("o/r", 5);
-    expect(pr.branch).toBe("noburi/issue-1");
+    expect(pr.branch).toBe("kobo/issue-1");
     expect(pr.checks).toEqual([
       { name: "test", state: "pass" },
       { name: "lint", state: "pending" },

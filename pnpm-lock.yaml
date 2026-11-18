@@ -232,10 +232,10 @@ importers:
       '@heroicons/react':
         specifier: 2.2.0
         version: 2.2.0(react@19.3.1)
-      '@noburi/core':
+      '@kobo/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@noburi/ui':
+      '@kobo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@tauri-apps/api':
@@ -269,7 +269,7 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
     devDependencies:
-      '@noburi/provider-claude':
+      '@kobo/provider-claude':
         specifier: workspace:*
         version: link:../../packages/providers/claude
       '@tailwindcss/vite':
@@ -299,10 +299,10 @@ importers:
 
   apps/runtime:
     dependencies:
-      '@noburi/core':
+      '@kobo/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@noburi/provider-claude':
+      '@kobo/provider-claude':
         specifier: workspace:*
         version: link:../../packages/providers/claude
       zod:
@@ -348,7 +348,7 @@ importers:
       '@anthropic-ai/claude-agent-sdk':
         specifier: 0.3.310
         version: 0.3.310(@anthropic-ai/sdk@1.3.0(zod@4.6.7))(@modelcontextprotocol/sdk@1.32.2(zod@4.6.7))(zod@4.6.7)
-      '@noburi/core':
+      '@kobo/core':
         specifier: workspace:*
         version: link:../../core
       zod:

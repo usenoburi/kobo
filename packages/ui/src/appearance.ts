@@ -46,7 +46,7 @@ type ReadingFont = z.infer<typeof ReadingFontId>;
 export interface ThemePreset {
   id: ThemeIdT;
   label: string;
-  group: "noburi" | "inspired" | "community";
+  group: "kobo" | "inspired" | "community";
   dark: boolean;
   /** Fonts applied with the theme; the user can change them afterwards. */
   fonts: { ui: UiFont; mono: MonoFont; reading: ReadingFont };
@@ -60,7 +60,7 @@ export const THEMES = [
   {
     id: "cozy-night",
     label: "Cozy Night",
-    group: "noburi",
+    group: "kobo",
     dark: true,
     fonts: { ui: "geist", mono: "geist-mono", reading: "ui" },
     preview: { bg: "#0c131a", card: "#16202a", fg: "#f6f0e5", accent: "#f0be79" },
@@ -68,7 +68,7 @@ export const THEMES = [
   {
     id: "cozy-day",
     label: "Cozy Day",
-    group: "noburi",
+    group: "kobo",
     dark: false,
     fonts: { ui: "geist", mono: "geist-mono", reading: "ui" },
     preview: { bg: "#f6f0e5", card: "#fffdf8", fg: "#101820", accent: "#f0be79" },
@@ -76,7 +76,7 @@ export const THEMES = [
   {
     id: "matcha",
     label: "Matcha",
-    group: "noburi",
+    group: "kobo",
     dark: true,
     fonts: { ui: "geist", mono: "geist-mono", reading: "ui" },
     preview: { bg: "#0d1613", card: "#14201b", fg: "#f2f0e6", accent: "#7dd3b0" },
@@ -84,7 +84,7 @@ export const THEMES = [
   {
     id: "high-contrast",
     label: "High contrast",
-    group: "noburi",
+    group: "kobo",
     dark: true,
     fonts: { ui: "atkinson", mono: "jetbrains-mono", reading: "ui" },
     preview: { bg: "#000000", card: "#0b0b0b", fg: "#ffffff", accent: "#ffd27a" },
@@ -186,7 +186,7 @@ export const THEMES = [
 ] as const satisfies readonly ThemePreset[];
 
 export const THEME_GROUPS = [
-  { id: "noburi", label: "Noburi" },
+  { id: "kobo", label: "Kōbō" },
   { id: "inspired", label: "Inspired by your tools" },
   { id: "community", label: "Community classics" },
 ] as const;

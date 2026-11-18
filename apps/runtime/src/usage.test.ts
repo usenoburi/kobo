@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { describe, expect, it } from "vite-plus/test";
-import type { ClaudeRunOptions, RunEvent } from "@noburi/provider-claude";
+import type { ClaudeRunOptions, RunEvent } from "@kobo/provider-claude";
 import { MissionService } from "./missions.ts";
 import { RunManager } from "./runs.ts";
 import { Store } from "./store.ts";
@@ -99,7 +99,7 @@ describe("usage", () => {
   });
 
   it("adds the budget column to databases made by the previous version", () => {
-    const path = join(mkdtempSync(join(tmpdir(), "noburi-")), "old.db");
+    const path = join(mkdtempSync(join(tmpdir(), "kobo-")), "old.db");
     const old = new DatabaseSync(path);
     old.exec(
       "create table missions (id text primary key, workspace_path text not null, title text not null, objective text not null, status text not null, created_at text not null, started_at text, finished_at text)",

@@ -12,5 +12,5 @@ Bundled so the app never calls SVGL at runtime. Checked: no `<script>`, event ha
 | `github_dark.svg`     | https://svgl.app/library/github_dark.svg     | GitHub: repository link                 |
 | `bmc.svg`             | https://svgl.app/library/bmc.svg             | Buy Me a Coffee: optional donation link |
 
-These marks belong to their owners and are not covered by Noburi's licence. Use them only to name the
+These marks belong to their owners and are not covered by Kōbō's licence. Use them only to name the
 provider a feature connects to, unmodified, following each brand's guidelines. Review before public release.

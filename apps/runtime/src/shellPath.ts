@@ -3,8 +3,8 @@ import { delimiter } from "node:path";
 import { promisify } from "node:util";
 
 const run = promisify(execFile);
-const START = "__NOBURI_PATH_START__";
-const END = "__NOBURI_PATH_END__";
+const START = "__KOBO_PATH_START__";
+const END = "__KOBO_PATH_END__";
 
 /** Extracts the PATH printed between markers; interactive shells often print banners around it. */
 export function parseShellPath(output: string): string | null {
