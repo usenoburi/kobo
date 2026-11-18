@@ -21,7 +21,7 @@ describe("quest steps", () => {
   it("checks off a step only when its command succeeded", () => {
     const events = [
       ev("mission.started"),
-      ...tool("1", "Bash", "git fetch origin && git checkout -b noburi/issue-1 origin/main"),
+      ...tool("1", "Bash", "git fetch origin && git checkout -b kobo/issue-1 origin/main"),
       ...tool("2", "Edit", "/w/todo.js"),
       ...tool("3", "Bash", "npm test", true),
     ];
@@ -62,8 +62,8 @@ describe("quest steps", () => {
       ev("approval.requested", {
         approvalId: "a1",
         toolName: "Bash",
-        summary: "git push -u origin noburi/issue-1",
-        detail: "git push -u origin noburi/issue-1",
+        summary: "git push -u origin kobo/issue-1",
+        detail: "git push -u origin kobo/issue-1",
       }),
     ];
     const steps = stateOf(questSteps({ events, status: "RUNNING", pullRequest: null }));

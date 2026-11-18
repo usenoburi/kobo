@@ -26,8 +26,8 @@ function shutdown() {
 process.on("SIGINT", shutdown);
 process.on("SIGTERM", shutdown);
 
-const runtime = run(["--filter", "@noburi/runtime", "start"], {
-  NOBURI_ALLOWED_ORIGINS: UI_ORIGIN,
+const runtime = run(["--filter", "@kobo/runtime", "start"], {
+  KOBO_ALLOWED_ORIGINS: UI_ORIGIN,
 });
 const lines = createInterface({ input: runtime.stdout });
 let ui;
@@ -47,9 +47,9 @@ lines.on("line", (line) => {
     return;
   }
   process.stdout.write(`[dev] runtime on 127.0.0.1:${ready.port}\n`);
-  ui = run(["--filter", "@noburi/desktop", "dev"], {
-    VITE_NOBURI_RUNTIME_URL: `http://127.0.0.1:${ready.port}`,
-    VITE_NOBURI_RUNTIME_TOKEN: ready.token,
+  ui = run(["--filter", "@kobo/desktop", "dev"], {
+    VITE_KOBO_RUNTIME_URL: `http://127.0.0.1:${ready.port}`,
+    VITE_KOBO_RUNTIME_TOKEN: ready.token,
   });
   ui.stdout.pipe(process.stdout);
 });

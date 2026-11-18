@@ -3,11 +3,11 @@ import { avatarImageFor, PackManifest } from "./pack.ts";
 
 const valid = {
   schemaVersion: "1.0",
-  id: "noburi.cozy-starters",
+  id: "kobo.cozy-starters",
   name: "Cozy Starters",
   version: "0.1.0",
   license: "CC-BY-4.0",
-  author: "Noburi contributors",
+  author: "Kōbō contributors",
   tileSize: 32,
   avatars: [
     {

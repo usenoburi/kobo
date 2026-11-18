@@ -4,7 +4,7 @@ import { loginShellPath, mergePaths, parseShellPath } from "./shellPath.ts";
 describe("login shell PATH", () => {
   it("ignores banners printed by interactive shells", () => {
     const output =
-      "Welcome to zsh!\n__NOBURI_PATH_START__/home/u/.nvm/bin:/usr/bin__NOBURI_PATH_END__\nbye";
+      "Welcome to zsh!\n__KOBO_PATH_START__/home/u/.nvm/bin:/usr/bin__KOBO_PATH_END__\nbye";
     expect(parseShellPath(output)).toBe("/home/u/.nvm/bin:/usr/bin");
     expect(parseShellPath("no markers here")).toBeNull();
   });

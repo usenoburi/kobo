@@ -19,7 +19,7 @@ import {
 import { ProjectList } from "./ProjectList";
 import { SessionView } from "./SessionView";
 
-const CONSENT_KEY = "noburi.discovery.consent.v1";
+const CONSENT_KEY = "kobo.discovery.consent.v1";
 
 function readConsent(): boolean {
   try {
@@ -82,7 +82,7 @@ export function ProjectsPage() {
     return (
       <Centered>
         <Alert>
-          <AlertTitle>The Noburi runtime is not connected</AlertTitle>
+          <AlertTitle>The Kōbō runtime is not connected</AlertTitle>
           <AlertDescription>
             Start the app with <code className="font-mono">pnpm dev</code> from the repository root:
             it launches the local runtime and this interface together.
@@ -99,8 +99,8 @@ export function ProjectsPage() {
           <CardHeader>
             <CardTitle>Find your Claude Code projects</CardTitle>
             <CardDescription>
-              Noburi can list the projects and conversations you already have in the Claude Code
-              CLI, so you can read and continue them here.
+              Kōbō can list the projects and conversations you already have in the Claude Code CLI,
+              so you can read and continue them here.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-2 text-sm text-muted-foreground">

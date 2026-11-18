@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { query, type PermissionResult, type SDKMessage } from "@anthropic-ai/claude-agent-sdk";
-import type { AgentEnvironment } from "@noburi/core";
+import type { AgentEnvironment } from "@kobo/core";
 import { sdkEnvironmentOptions } from "./environment.ts";
 import { describeToolInput, summarizeToolInput } from "./transcript.ts";
 
@@ -83,7 +83,7 @@ export interface ClaudeRunOptions {
   requestApproval: (request: ApprovalRequest) => Promise<boolean>;
 }
 
-/** Converts one SDK message into zero or more Noburi run events. Pure, for testing. */
+/** Converts one SDK message into zero or more Kōbō run events. Pure, for testing. */
 export function mapSdkMessage(message: SDKMessage): RunEvent[] {
   switch (message.type) {
     case "system":
@@ -203,7 +203,7 @@ export async function* runClaude(options: ClaudeRunOptions): AsyncGenerator<RunE
     });
     return approved
       ? { behavior: "allow", updatedInput: input }
-      : { behavior: "deny", message: "The user denied this action in Noburi." };
+      : { behavior: "deny", message: "The user denied this action in Kōbō." };
   };
 
   try {

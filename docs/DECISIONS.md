@@ -22,7 +22,7 @@ Checked in the package's type definitions:
 - `query({ options: { resume, forkSession, cwd, model, permissionMode, canUseTool, abortController } })` for
   running, resuming, forking, approvals and cancellation.
 - `system/session_state_changed` messages (`idle | running | requires_action`) can drive agent status.
-- `deleteSession` / `renameSession` exist: Noburi must never call them from the scanner (AC-17).
+- `deleteSession` / `renameSession` exist: Kōbō must never call them from the scanner (AC-17).
 
 Still to confirm before coding the adapter: how usage is reported on result messages, and the auth/terms for
 using the SDK with a subscription plan (spec R1).
@@ -58,7 +58,7 @@ render and to validate. Tile layers can be added later for user-made maps; the p
 
 - `apps/desktop` uses Tailwind CSS 4.3 and shadcn/ui (CLI 4.22, Radix base, `radix-nova` style). Components live
   in `apps/desktop/src/components/ui` as owned source.
-- shadcn variables are filled by Noburi themes in `packages/ui/src/themes.css`: Cozy Night (default), Cozy Day,
+- shadcn variables are filled by Kōbō themes in `packages/ui/src/themes.css`: Cozy Night (default), Cozy Day,
   Matcha, High contrast. `data-theme`, `data-accent`, `data-density`, `data-motion` sit on `<html>`; dark themes
   also set the `.dark` class that shadcn's `dark:` variant expects.
 - `packages/ui/src/appearance.ts` holds the settings schema (theme, accent, UI font, mono font, text size,
@@ -91,7 +91,7 @@ render and to validate. Tile layers can be added later for user-made maps; the p
 
 Apache-2.0 (official text, SHA-256 `cfc7749b…d30`) with a `NOTICE` file. Chosen over MIT for the explicit patent
 grant from contributors and because section 6 states the licence gives no trademark rights, which keeps the
-Noburi name and logo out of the code licence as the spec asks. Third-party logos and fonts keep their own terms.
+Kōbō name and logo out of the code licence as the spec asks. Third-party logos and fonts keep their own terms.
 The original pixel art is covered by Apache-2.0 for now; a separate asset licence (CC-BY-4.0) can be added later.
 
 ## D10: Existing Claude Code sessions
@@ -106,7 +106,7 @@ The original pixel art is covered by Apache-2.0 for now; a separate asset licenc
 - Continue = `query({ resume })`, Fork = `query({ resume, forkSession: true })`. The runtime takes the folder
   from the session's own record, never from the client. It refuses to continue a session written to in the last
   2 minutes (it may be open in a terminal) unless the user forks or explicitly forces it, and refuses a second
-  Noburi run on the same session.
+  Kōbō run on the same session.
 - Permissions: `permissionMode: "default"` plus `canUseTool`. Read-only tools (Read, Glob, Grep, LS,
   NotebookRead, TodoWrite) run directly unless they touch a path outside the project; every other tool waits for
   Approve / Deny in the UI. Nothing bypasses permissions. The user's own Claude Code allow rules still apply.
@@ -115,14 +115,14 @@ The original pixel art is covered by Apache-2.0 for now; a separate asset licenc
 - Usage comes from the SDK `result` message (input, output, cache read, cache write tokens). The SDK's
   `total_cost_usd` is kept as an API-price estimate and is not presented as a bill.
 - `pnpm dev` (scripts/dev.mjs) starts the runtime, reads its ready line and passes URL and token to Vite as
-  `VITE_NOBURI_RUNTIME_*`. Tauri will do the same without env variables.
+  `VITE_KOBO_RUNTIME_*`. Tauri will do the same without env variables.
 - Consent: the first scan waits for the user to accept, and the screen states the folder that is read.
 - Not done yet: real end-to-end resume test against Claude on a real account, detecting a CLI process that holds
   a session (only the 2-minute heuristic exists), and reading the newest messages first in very long sessions.
 
 ## D11: Theme presets
 
-- 15 themes in three groups: Noburi (Cozy Night, Cozy Day, Matcha, High contrast), inspired by developer
+- 15 themes in three groups: Kōbō (Cozy Night, Cozy Day, Matcha, High contrast), inspired by developer
   tools (Claude Dark/Light, Codex, GitHub Dark/Light, Vercel) and community classics (Dracula, Nord,
   Catppuccin Mocha, Tokyo Night, Solarized Light).
 - A theme is a palette plus suggested fonts (interface, code, conversation). Picking one applies its fonts and
@@ -140,23 +140,24 @@ The original pixel art is covered by Apache-2.0 for now; a separate asset licenc
 
 - `apps/desktop/src-tauri` (Tauri 2.12). `pnpm desktop` runs `tauri dev`: Vite serves the UI on port 1420 and
   the shell opens it in a native window (1440×900, min 1024×640).
-- The shell owns the runtime's lifetime. In development it starts `pnpm --filter @noburi/runtime start` from
+- The shell owns the runtime's lifetime. In development it starts `pnpm --filter @kobo/runtime start` from
   the workspace in its own process group, reads the `runtime.ready` line, and serves `{ url, token }` through
   the `runtime_info` command; the webview never sees an environment variable and the token is never logged.
 - On exit the whole process group gets SIGTERM. The runtime is also started with a stdin pipe and
-  `NOBURI_EXIT_ON_STDIN_CLOSE=1`, so it exits by itself if the shell crashes.
+  `KOBO_EXIT_ON_STDIN_CLOSE=1`, so it exits by itself if the shell crashes.
 - Packaged builds are not done yet: they need the runtime bundled as a sidecar (Node or a single executable).
 - CSP for packaged builds allows only the app itself, the IPC bridge and `http://127.0.0.1:*`.
-- App icons in `src-tauri/icons` are generated with `tauri icon` from `assets/brand/source/noburi-app-icon.svg`.
+- App icons in `src-tauri/icons` are generated with `tauri icon` from `assets/brand/source/kobo-app-icon.svg`.
 - CI compiles and tests the Rust shell on Ubuntu (`cargo test --locked`) with the Tauri system libraries.
 
 ## D13: Missions and persistence
 
 - Storage: `node:sqlite` (built into Node 22+, no native module to compile), one file per user:
-  `$XDG_DATA_HOME/noburi/noburi.db` on Linux, `~/Library/Application Support/Noburi` on macOS,
-  `%APPDATA%\\Noburi` on Windows; `NOBURI_DATA_DIR` overrides. Node prints an "experimental" warning for it.
+  `$XDG_DATA_HOME/kobo/kobo.db` on Linux, `~/Library/Application Support/Kobo` on macOS,
+  `%APPDATA%\\Kobo` on Windows; `KOBO_DATA_DIR` (or the older `NOBURI_DATA_DIR`) overrides. A Noburi
+  install has its folder moved there on first start. Node prints an "experimental" warning for it.
 - Tables: missions, tasks, events (sequence per mission), artifacts. Rows read back are validated with the
-  `@noburi/core` schemas. Every state change and event is written before it is broadcast.
+  `@kobo/core` schemas. Every state change and event is written before it is broadcast.
 - On start, `reconcileAfterRestart()` marks running missions and tasks INTERRUPTED. Nothing restarts by itself.
 - Profiles: Developer (sonnet), Architect (opus), Researcher (haiku). Models are Claude Code aliases, so
   they follow what the user's Claude Code and plan resolve them to.
@@ -190,7 +191,7 @@ The original pixel art is covered by Apache-2.0 for now; a separate asset licenc
 ## D15: Usage and budgets
 
 - `GET /usage` aggregates the `usage.updated` events of every mission: input, output, cache read and cache write
-  tokens exactly as the SDK `result` message reported them, by mission and by agent + model (the alias Noburi
+  tokens exactly as the SDK `result` message reported them, by mission and by agent + model (the alias Kōbō
   asked for). Runs that never reported are absent, not zero; nothing is estimated from text.
 - The run's `apiKeySource` is recorded with its usage. `none`/`oauth` mean a Claude subscription: the screen then
   shows no dollar figure, because plans are not billed per token. With an API key it shows the SDK's
@@ -209,15 +210,15 @@ The original pixel art is covered by Apache-2.0 for now; a separate asset licenc
   `runtime.mjs` with esbuild, and downloads the official Node.js 24.21.0 binary from nodejs.org, checked against
   its pinned SHA-256 (release chosen over six weeks old). Node's licence ships next to it.
 - In release builds the shell runs `runtime/node runtime/runtime.mjs` from the app's resources, with
-  `NOBURI_PACKAGED=1`; development still runs the workspace runtime through pnpm.
+  `KOBO_PACKAGED=1`; development still runs the workspace runtime through pnpm.
 - Claude Code is **not** bundled: the SDK's own CLI binary is 291 MB per platform. The packaged runtime uses the
-  user's installed `claude` (`NOBURI_CLAUDE_BIN`, then PATH, then `~/.local/bin`, `~/.claude/local`,
+  user's installed `claude` (`KOBO_CLAUDE_BIN`, then PATH, then `~/.local/bin`, `~/.claude/local`,
   `/usr/local/bin`). The SDK version (0.3.310, CLI 2.1.310) and the installed CLI can differ; this is a known
   risk to watch.
 - Apps started from a desktop menu get a minimal PATH, so agents could not find `npm` or nvm's Node (seen in a
   real packaged run). The packaged runtime reads the login shell's PATH once at start (`$SHELL -ilc`, 5 s
   timeout, output between markers) and merges it in front of the launcher's; about 2 s on a zsh setup.
-- Data stays in `~/.local/share/noburi/` for both dev and packaged builds.
+- Data stays in `~/.local/share/kobo/` for both dev and packaged builds.
 - Not done: signing, update channel, macOS/Windows packages.
 
 ## D17: What mission agents inherit from Claude Code
@@ -234,16 +235,16 @@ The original pixel art is covered by Apache-2.0 for now; a separate asset licenc
 - Skills are a visibility filter, not a sandbox; tool approvals still apply in every preset.
 - Checked with a real Isolated mission in a throwaway repo: completed, tests passed, no `Skill` call.
 
-## D18: Noburi becomes a management game
+## D18: Kōbō becomes a management game
 
-- Reviewed with the author: as a dashboard, Noburi repeated what Claude Code and its desktop app already do.
+- Reviewed with the author: as a dashboard, Kōbō repeated what Claude Code and its desktop app already do.
   It is now a management game where the player is the project lead and the staff are real Claude Code agents.
   See `docs/GAME_DESIGN.md`.
 - The "never fake" rule is split: agent state, actions, hand-offs, GitHub objects and costs must be real; idle
   animations, walking paths and decoration may be staged, as long as they never show a state that is not true.
 - Tickets and deliverables come from GitHub through the user's `gh` login. Reading never asks, every write asks,
   merging stays with the player.
-- Test repository: `useburoo/noburi-playground` (private), with four sample issues.
+- Test repository: `usenoburi/noburi-playground` (private), with four sample issues.
 
 ## D19: Game scene prototype
 
@@ -254,7 +255,7 @@ The original pixel art is covered by Apache-2.0 for now; a separate asset licenc
 - Dropping a card on the developer (or "Give to the developer") calls `POST /forge/work`: the runtime reads the
   issue with `gh`, clones the repository once into `workspaces/` next to the database, and starts a
   one-task mission linked to the issue (`issue_ref`). One running mission per issue.
-- The task asks for a branch `noburi/issue-<n>`, tests, a commit, a push and a pull request with
+- The task asks for a branch `kobo/issue-<n>`, tests, a commit, a push and a pull request with
   "Closes #<n>", and forbids merging. Push and pull request are Bash calls, so each waits for the player's "!"
   approval.
 - Staged: walking to the board and back, carrying the card, taking the finished work to the player's desk,
@@ -273,7 +274,7 @@ The original pixel art is covered by Apache-2.0 for now; a separate asset licenc
 - Approvals appear in an RPG dialog box with the agent's last message and the full command. Enter approves once,
   Escape refuses, never while typing in a field.
 - Your desk reads the pull request through `gh` (`GET /forge/pull`): checks, stats, the start of the diff.
-  Merging opens GitHub in the browser through the Tauri opener plugin (2.7.0, http(s) only); Noburi never merges.
+  Merging opens GitHub in the browser through the Tauri opener plugin (2.7.0, http(s) only); Kōbō never merges.
 - Studio shows what `GET /connections` finds: gh and glab, and Claude Code, Codex and Gemini CLI. Only Claude Code
   can run agents; the others are listed as installed but not supported yet. Hiring is read-only for now.
 - Not shown on purpose until real: studio level and XP, GitHub mail, a daily budget in the HUD.

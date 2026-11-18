@@ -229,7 +229,7 @@ export function DeskScreen({ studio }: { studio: Studio }) {
             Merge on GitHub
           </button>
           <p className="text-sm leading-relaxed text-[#A7B3BE]">
-            Noburi never merges. Review the change on GitHub and merge it there when you are happy.
+            Kōbō never merges. Review the change on GitHub and merge it there when you are happy.
           </p>
         </section>
       )}

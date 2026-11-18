@@ -23,7 +23,7 @@ import {
 } from "@/lib/runtime";
 import { cn } from "@/lib/utils";
 import { relativeTime } from "../projects/time";
-import { DEFAULT_ENVIRONMENT } from "@noburi/core";
+import { DEFAULT_ENVIRONMENT } from "@kobo/core";
 import { EnvironmentPicker } from "./EnvironmentPicker";
 import { MissionDetail } from "./MissionDetail";
 import { MISSION_STATUS } from "./status";
@@ -54,11 +54,11 @@ export function MissionsPage() {
   }, [reload]);
 
   useEffect(() => {
-    // Suggest folders from the projects the user already allowed Noburi to scan.
+    // Suggest folders from the projects the user already allowed Kōbō to scan.
     let current = true;
     let consented = false;
     try {
-      consented = localStorage.getItem("noburi.discovery.consent.v1") === "granted";
+      consented = localStorage.getItem("kobo.discovery.consent.v1") === "granted";
     } catch {
       consented = false;
     }
@@ -79,7 +79,7 @@ export function MissionsPage() {
     return (
       <div className="flex flex-1 items-center justify-center p-8">
         <Alert className="max-w-lg">
-          <AlertTitle>The Noburi runtime is not connected</AlertTitle>
+          <AlertTitle>The Kōbō runtime is not connected</AlertTitle>
           <AlertDescription>
             Open the desktop app with pnpm desktop, or pnpm dev for the browser.
           </AlertDescription>
@@ -208,7 +208,7 @@ function NewMission({
         <div>
           <h1 className="text-lg font-semibold">New mission</h1>
           <p className="text-sm text-muted-foreground">
-            Describe the goal. Noburi drafts a plan you can edit; nothing runs until you start it.
+            Describe the goal. Kōbō drafts a plan you can edit; nothing runs until you start it.
           </p>
         </div>
         {error && (

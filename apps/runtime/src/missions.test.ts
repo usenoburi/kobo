@@ -3,7 +3,7 @@ import type { Server } from "node:http";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vite-plus/test";
-import type { ClaudeRunOptions, RunEvent } from "@noburi/provider-claude";
+import type { ClaudeRunOptions, RunEvent } from "@kobo/provider-claude";
 import { createApi } from "./api.ts";
 import { buildTaskPrompt, MissionService } from "./missions.ts";
 import { RunManager } from "./runs.ts";
@@ -167,7 +167,7 @@ describe("missions", () => {
   });
 
   it("marks running work INTERRUPTED after a restart and keeps its history", async () => {
-    const path = join(mkdtempSync(join(tmpdir(), "noburi-")), "noburi.db");
+    const path = join(mkdtempSync(join(tmpdir(), "kobo-")), "kobo.db");
     const first = setup(path);
     const { mission } = first.service.create({ workspacePath: "/w", objective: "[script:hang]" });
     first.service.start(mission.id);

@@ -92,7 +92,7 @@ export function HiringScreen({ studio }: { studio: Studio }) {
         ))}
         {!connections && <p className="text-sm text-[#A7B3BE]">Looking for engines…</p>}
         <p className="text-sm leading-relaxed text-[#A7B3BE]">
-          Every agent runs on Claude Code today. Codex and Gemini CLI agents come once Noburi can
+          Every agent runs on Claude Code today. Codex and Gemini CLI agents come once Kōbō can
           relay their approvals one command at a time.
         </p>
         <button type="button" className="game-btn game-btn-honey justify-center" disabled>

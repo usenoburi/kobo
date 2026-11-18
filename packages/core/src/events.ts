@@ -24,7 +24,7 @@ export const EventType = z.enum([
 ]);
 export type EventType = z.infer<typeof EventType>;
 
-export const NoburiEvent = z.object({
+export const KoboEvent = z.object({
   id: z.string().min(1),
   missionId: z.string().min(1),
   runId: z.string().optional(),
@@ -34,4 +34,4 @@ export const NoburiEvent = z.object({
   /** Monotonic per mission; used to order and de-duplicate. */
   sequence: z.number().int().nonnegative(),
 });
-export type NoburiEvent = z.infer<typeof NoburiEvent>;
+export type KoboEvent = z.infer<typeof KoboEvent>;

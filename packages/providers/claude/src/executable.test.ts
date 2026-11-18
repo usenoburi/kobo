@@ -8,13 +8,13 @@ const only =
     paths.includes(p);
 
 describe("findClaudeExecutable", () => {
-  it("prefers NOBURI_CLAUDE_BIN and never falls back when it is wrong", () => {
-    expect(findClaudeExecutable({ NOBURI_CLAUDE_BIN: "/x/claude" }, only("/x/claude"))).toBe(
+  it("prefers KOBO_CLAUDE_BIN and never falls back when it is wrong", () => {
+    expect(findClaudeExecutable({ KOBO_CLAUDE_BIN: "/x/claude" }, only("/x/claude"))).toBe(
       "/x/claude",
     );
     expect(
       findClaudeExecutable(
-        { NOBURI_CLAUDE_BIN: "/missing", PATH: "/usr/bin" },
+        { KOBO_CLAUDE_BIN: "/missing", PATH: "/usr/bin" },
         only("/usr/bin/claude"),
       ),
     ).toBeNull();

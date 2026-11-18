@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { findClaudeExecutable, runClaude, sdkSessionSource } from "@noburi/provider-claude";
+import { findClaudeExecutable, runClaude, sdkSessionSource } from "@kobo/provider-claude";
 import { dirname, join } from "node:path";
 import { createApi } from "./api.ts";
 import { GitHubForge, nodeExec } from "./forge.ts";
@@ -7,21 +7,26 @@ import { loginShellPath, mergePaths } from "./shellPath.ts";
 import { MissionService } from "./missions.ts";
 import { RunManager } from "./runs.ts";
 import { createRuntimeServer, listenLoopback } from "./server.ts";
-import { defaultDatabasePath, Store } from "./store.ts";
+import { defaultDatabasePath, legacyDatabasePath, migrateLegacyData, Store } from "./store.ts";
 
-const token = process.env.NOBURI_RUNTIME_TOKEN ?? randomBytes(32).toString("base64url");
-const port = Number(process.env.NOBURI_RUNTIME_PORT ?? 0);
+const token = process.env.KOBO_RUNTIME_TOKEN ?? randomBytes(32).toString("base64url");
+const port = Number(process.env.KOBO_RUNTIME_PORT ?? 0);
 const allowedOrigins = (
-  process.env.NOBURI_ALLOWED_ORIGINS ??
+  process.env.KOBO_ALLOWED_ORIGINS ??
   "http://localhost:1420,tauri://localhost,http://tauri.localhost"
 ).split(",");
 
-const databasePath = process.env.NOBURI_DB ?? defaultDatabasePath();
+const explicitDatabase = process.env.KOBO_DB ?? process.env.NOBURI_DB;
+const databasePath = explicitDatabase ?? defaultDatabasePath();
+// Installs from when the app was called Noburi keep their missions and clones.
+if (!explicitDatabase && migrateLegacyData(databasePath, legacyDatabasePath())) {
+  process.stderr.write(`Moved the Noburi data to ${databasePath}.\n`);
+}
 const store = new Store(databasePath);
 // Nothing survives a restart as "running": interrupted work is shown as such, never resumed silently.
 store.reconcileAfterRestart();
 // Packaged builds do not ship the SDK's Claude binary: they run the user's installed Claude Code CLI.
-const packaged = process.env.NOBURI_PACKAGED === "1";
+const packaged = process.env.KOBO_PACKAGED === "1";
 if (packaged) {
   // Launched from a desktop menu: give agents (and Claude detection) the user's real PATH.
   const shellPath = await loginShellPath();
@@ -29,9 +34,9 @@ if (packaged) {
   else
     process.stderr.write("Could not read the login shell PATH; agents get the launcher's PATH.\n");
 }
-const claudeExecutable = packaged || process.env.NOBURI_CLAUDE_BIN ? findClaudeExecutable() : null;
+const claudeExecutable = packaged || process.env.KOBO_CLAUDE_BIN ? findClaudeExecutable() : null;
 if (packaged && !claudeExecutable) {
-  process.stderr.write("Claude Code CLI not found: install it or set NOBURI_CLAUDE_BIN.\n");
+  process.stderr.write("Claude Code CLI not found: install it or set KOBO_CLAUDE_BIN.\n");
 }
 const runs = new RunManager((options) =>
   runClaude({ ...options, ...(claudeExecutable ? { executable: claudeExecutable } : {}) }),
@@ -57,7 +62,7 @@ const shutdown = () => server.close(() => process.exit(0));
 for (const signal of ["SIGINT", "SIGTERM"] as const) process.on(signal, shutdown);
 
 // Set by the desktop shell: if it dies without stopping us, its pipe closes and we leave too.
-if (process.env.NOBURI_EXIT_ON_STDIN_CLOSE === "1") {
+if (process.env.KOBO_EXIT_ON_STDIN_CLOSE === "1") {
   process.stdin.on("end", shutdown);
   process.stdin.resume();
 }

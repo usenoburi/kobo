@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    noburi_desktop_lib::run();
+    kobo_desktop_lib::run();
 }

@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { existsSync, statSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 
-/** What Noburi needs from one Claude Code CLI session; mirrors the SDK's SDKSessionInfo. */
+/** What Kōbō needs from one Claude Code CLI session; mirrors the SDK's SDKSessionInfo. */
 export interface SessionInfo {
   sessionId: string;
   summary: string;

@@ -92,8 +92,8 @@ export interface PullRequest {
 const MAX_DIFF = 12_000;
 
 /**
- * GitHub through the user's own `gh` login: Noburi stores no token. Only reads happen here
- * (issues, and cloning into Noburi's own folder); pushes and pull requests are made by agents,
+ * GitHub through the user's own `gh` login: Kōbō stores no token. Only reads happen here
+ * (issues, and cloning into Kōbō's own folder); pushes and pull requests are made by agents,
  * through tool calls the player approves.
  */
 export class GitHubForge {
@@ -167,7 +167,7 @@ export class GitHubForge {
     };
   }
 
-  /** Where agents work on this repository: a clone in Noburi's data folder, made on first use. */
+  /** Where agents work on this repository: a clone in Kōbō's data folder, made on first use. */
   async workspace(repo: string): Promise<string> {
     checkRepo(repo);
     const [owner = "", name = ""] = repo.split("/");
@@ -186,7 +186,7 @@ function checkRepo(repo: string): void {
 
 /** The single task a developer agent gets for an issue. The issue text is the player's own. */
 export function issueInstructions(repo: string, issue: Issue): string {
-  const branch = `noburi/issue-${issue.number}`;
+  const branch = `kobo/issue-${issue.number}`;
   return [
     `Work on GitHub issue #${issue.number} of ${repo}: "${issue.title}".`,
     "",
@@ -235,7 +235,7 @@ export async function forgeStatus(exec: Exec): Promise<{ github: ToolStatus; git
   };
 }
 
-/** AI engines found on this machine. Only Claude Code can run agents in Noburi so far. */
+/** AI engines found on this machine. Only Claude Code can run agents in Kōbō so far. */
 export async function engineStatus(
   exec: Exec,
   claudePath: string | null,

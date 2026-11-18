@@ -118,7 +118,7 @@ function start() {
         dev!.src = waiting;
         bubble!.hidden = false;
         dialog!.classList.add("open");
-        await type(`$ git push -u origin noburi/issue-${n}`);
+        await type(`$ git push -u origin kobo/issue-${n}`);
         await sleep(800);
         btn!.classList.add("pressed");
         await sleep(450);

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { applyAppearance, parseAppearance, ThemeId, withTheme, type Appearance } from "@noburi/ui";
+import { applyAppearance, parseAppearance, ThemeId, withTheme, type Appearance } from "@kobo/ui";
 
 // Per-device preference. Kept in localStorage until the runtime settings store exists.
-const STORAGE_KEY = "noburi.appearance.v1";
+const STORAGE_KEY = "kobo.appearance.v1";
 
 function load(): Appearance {
   try {

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@noburi/ui/themes.css";
+@import "@kobo/ui/themes.css";
 
 /* Bundled fonts: switching in Settings never downloads anything. */
 @import "@fontsource-variable/geist";

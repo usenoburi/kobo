@@ -494,7 +494,7 @@ export function OfficeScreen({
                 Open on GitHub
               </button>
               <span className="text-sm text-[#A7B3BE]">
-                Works on a branch in Noburi&apos;s own clone. Every push asks you first.
+                Works on a branch in Kōbō&apos;s own clone. Every push asks you first.
               </span>
             </div>
           </section>
@@ -503,7 +503,7 @@ export function OfficeScreen({
             <img src="/favicon.svg" alt="" className="size-20 shrink-0" />
             <div className="flex flex-1 flex-col gap-2">
               <span className="self-start bg-[#F0BE79] px-2.5 text-sm font-bold text-[#101820]">
-                NOBURI
+                KŌBŌ
               </span>
               <p className="text-xl leading-snug">
                 {studio.boardError

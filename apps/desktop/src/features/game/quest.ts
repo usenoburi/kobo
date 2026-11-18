@@ -23,7 +23,9 @@ interface Call {
 const MATCHERS: Record<Exclude<QuestStep["id"], "take" | "deliver">, (call: Call) => boolean> = {
   branch: (c) =>
     c.name === "Bash" &&
-    /git (switch -c|checkout -b|branch \S|switch noburi\/|checkout noburi\/)/.test(c.text),
+    /git (switch -c|checkout -b|branch \S|switch (kobo|noburi)\/|checkout (kobo|noburi)\/)/.test(
+      c.text,
+    ),
   change: (c) =>
     ["Edit", "Write", "MultiEdit", "NotebookEdit"].includes(c.name) ||
     (c.name === "Bash" && /sed -i|cat >>?|tee /.test(c.text)),

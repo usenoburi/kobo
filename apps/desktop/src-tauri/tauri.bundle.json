@@ -13,7 +13,7 @@
     "longDescription": "Local-first desktop studio for directing Claude Code agents. Requires the Claude Code CLI.",
     "category": "DeveloperTool",
     "license": "Apache-2.0",
-    "publisher": "Noburi contributors",
-    "homepage": "https://github.com/useburoo/noburi"
+    "publisher": "Kōbō contributors",
+    "homepage": "https://github.com/usenoburi/kobo"
   }
 }

@@ -1,4 +1,6 @@
-# Noburi
+# Kōbō
+
+_Formerly Noburi. Existing installs keep their data: it moves to the Kōbō folder on first start._
 
 **Your agents, at work.** A local-first, open source desktop studio for directing Claude Code agents from a cozy pixel office.
 
@@ -8,7 +10,7 @@
 > Each mission chooses what its agents inherit from your Claude Code setup (settings, hooks, MCP servers, skills).
 > See `docs/DECISIONS.md`.
 >
-> Next: Noburi is becoming a management game where you lead a team of real Claude Code agents. See
+> Next: Kōbō is becoming a management game where you lead a team of real Claude Code agents. See
 > `docs/GAME_DESIGN.md`.
 
 ## Develop
@@ -57,10 +59,10 @@ docs              design and decisions
 
 Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
-The Noburi name, logo and app icon are not covered by the licence. Third-party logos in
+The Kōbō name, logo and app icon are not covered by the licence. Third-party logos in
 `assets/vendor/svgl/` belong to their owners.
 
 ## Support
 
-Noburi is free. If it helps you, you can [buy the maintainer a coffee](https://buymeacoffee.com/jiordiviera),
+Kōbō is free. If it helps you, you can [buy the maintainer a coffee](https://buymeacoffee.com/jiordiviera),
 entirely optional, nothing is locked behind it.

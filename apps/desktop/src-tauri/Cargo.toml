@@ -1,17 +1,17 @@
 [package]
-name = "noburi-desktop"
+name = "kobo-desktop"
 version = "0.1.0"
-description = "Noburi desktop shell"
-authors = ["Jiordi Kengne and Noburi contributors"]
+description = "Kōbō desktop shell"
+authors = ["Jiordi Kengne and Kōbō contributors"]
 license = "Apache-2.0"
-repository = "https://github.com/useburoo/noburi"
+repository = "https://github.com/usenoburi/kobo"
 edition = "2024"
 rust-version = "1.90"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
-name = "noburi_desktop_lib"
+name = "kobo_desktop_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

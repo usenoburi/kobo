@@ -1,5 +1,5 @@
 import type { Options } from "@anthropic-ai/claude-agent-sdk";
-import type { AgentEnvironment } from "@noburi/core";
+import type { AgentEnvironment } from "@kobo/core";
 
 /** SDK options that apply a mission's agent environment. Pure, for testing. */
 export function sdkEnvironmentOptions(
