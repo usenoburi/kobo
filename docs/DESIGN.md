@@ -15,6 +15,8 @@ Values in square brackets (`[sum]`, `[project-a]`) are placeholders for runtime 
 ## Brand
 
 - Name: Kōbō. Tagline: "Your agents, at work."
+- Wordmark: "kōbō" in lowercase, in Pixelify Sans Bold (the app and site display font) outlined to paths: Cream
+  on dark, Night on light, the two macrons in Mint like the sprout. The tagline below is Pixelify Sans too, in Mint.
 - Mark: companion face with Mint sprout and Honey shell. Sources in `assets/brand/source/`:
   - `kobo-app-icon.svg`: 1024 px master, Night rounded square background.
   - `kobo-logo-horizontal-dark-transparent.svg`: for dark surfaces (from Drive).
