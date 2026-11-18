@@ -1,0 +1,128 @@
+name: Release
+
+# Every merge into main that changes the app ships a new Linux release, with no manual step:
+# the version is the last tag plus one patch (or minor/major when run by hand), written into the
+# app at build time, tagged and published with the AppImage, the .deb and their checksums.
+# Website-only and docs-only changes do not release.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/desktop/**"
+      - "apps/runtime/**"
+      - "packages/**"
+      - "scripts/bundle-runtime.mjs"
+      - "pnpm-lock.yaml"
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Which part of the version to raise
+        type: choice
+        options: [patch, minor, major]
+        default: patch
+
+permissions:
+  contents: write
+
+# Releases run one after the other, never cancelled halfway.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: build and publish
+    # 22.04 keeps the AppImage working on older glibc distributions.
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      # Actions pinned to commit SHAs: actions/checkout v7.0.1, voidzero-dev/setup-vp v1.21.2,
+      # Swatinem/rust-cache v2.9.2.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+
+      - name: Compute the version
+        id: version
+        env:
+          BUMP: ${{ inputs.bump || 'patch' }}
+        run: |
+          if git tag --points-at HEAD | grep -q '^v'; then
+            echo "This commit is already released: $(git tag --points-at HEAD)"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          last=$(git tag -l 'v*.*.*' --sort=-v:refname | head -n1)
+          IFS=. read -r major minor patch <<< "${last#v}"
+          case "$BUMP" in
+            major) next="$((major + 1)).0.0" ;;
+            minor) next="$major.$((minor + 1)).0" ;;
+            *) next="$major.$minor.$((patch + 1))" ;;
+          esac
+          echo "Last release ${last:-none}, next v$next"
+          echo "version=$next" >> "$GITHUB_OUTPUT"
+          echo "previous=$last" >> "$GITHUB_OUTPUT"
+
+      - name: Install Tauri system dependencies
+        if: steps.version.outputs.skip != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev libssl-dev file
+
+      - uses: voidzero-dev/setup-vp@68f39c78aaf39be468cabd2afb09c162574c84af
+        if: steps.version.outputs.skip != 'true'
+        with:
+          node-version-file: .nvmrc
+          cache: true
+
+      - name: Install dependencies
+        if: steps.version.outputs.skip != 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Rust
+        if: steps.version.outputs.skip != 'true'
+        run: rustup toolchain install stable --profile minimal && rustup default stable
+
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+        if: steps.version.outputs.skip != 'true'
+        with:
+          workspaces: apps/desktop/src-tauri
+
+      - name: Write the version into the app
+        if: steps.version.outputs.skip != 'true'
+        run: node scripts/set-version.mjs "${{ steps.version.outputs.version }}"
+
+      - name: Build the Linux packages
+        if: steps.version.outputs.skip != 'true'
+        env:
+          # linuxdeploy is itself an AppImage; runners have no FUSE.
+          APPIMAGE_EXTRACT_AND_RUN: "1"
+        run: pnpm package:linux
+
+      - name: Collect the files
+        if: steps.version.outputs.skip != 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          bundle=apps/desktop/src-tauri/target/release/bundle
+          mkdir -p out
+          cp "$bundle/appimage/Kobo_${VERSION}_amd64.AppImage" "$bundle/deb/Kobo_${VERSION}_amd64.deb" out/
+          # Stable names, so releases/latest/download/... on the website always works.
+          cp "out/Kobo_${VERSION}_amd64.AppImage" out/Kobo_amd64.AppImage
+          cp "out/Kobo_${VERSION}_amd64.deb" out/Kobo_amd64.deb
+          (cd out && sha256sum * > SHA256SUMS)
+          ls -l out
+
+      - name: Publish the release
+        if: steps.version.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          PREVIOUS: ${{ steps.version.outputs.previous }}
+        run: |
+          gh release create "v$VERSION" out/* \
+            --target "$GITHUB_SHA" \
+            --title "Kōbō $VERSION (alpha)" \
+            --latest \
+            --generate-notes \
+            ${PREVIOUS:+--notes-start-tag "$PREVIOUS"}

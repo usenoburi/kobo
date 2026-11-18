@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Download Kōbō for Linux · v0.1.0 alpha</title>
+    <title>Download Kōbō for Linux · alpha</title>
     <meta
       name="description"
-      content="Download Kōbō 0.1.0 alpha for Linux as an AppImage or a .deb, or build it from source. Free and open source under Apache-2.0."
+      content="Download the Kōbō alpha for Linux as an AppImage or a .deb, or build it from source. Free and open source under Apache-2.0."
     />
     <link rel="canonical" href="https://kobo.noburi.space/download" />
     <meta property="og:site_name" content="Kōbō" />
@@ -16,7 +16,7 @@
     <meta property="og:title" content="Download Kōbō for Linux" />
     <meta
       property="og:description"
-      content="Version 0.1.0 alpha, as an AppImage or a .deb. Free and open source under Apache-2.0."
+      content="The latest alpha, as an AppImage or a .deb. Free and open source under Apache-2.0."
     />
     <meta property="og:image" content="https://kobo.noburi.space/og-image.png" />
     <meta property="og:image:type" content="image/png" />
@@ -30,7 +30,7 @@
     <meta name="twitter:title" content="Download Kōbō for Linux" />
     <meta
       name="twitter:description"
-      content="Version 0.1.0 alpha, as an AppImage or a .deb. Free and open source under Apache-2.0."
+      content="The latest alpha, as an AppImage or a .deb. Free and open source under Apache-2.0."
     />
     <meta name="twitter:image" content="https://kobo.noburi.space/og-image.png" />
     <meta
@@ -43,6 +43,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="./src/site.css" />
     <script type="module" src="./src/analytics.ts"></script>
+    <script type="module" src="./src/release.ts"></script>
   </head>
   <body>
     <a class="ribbon" href="https://buymeacoffee.com/jiordiviera" aria-label="Buy me a coffee">
@@ -69,7 +70,9 @@
         class="wrap"
         style="padding-top: 64px; display: flex; flex-direction: column; gap: 14px"
       >
-        <span class="badge eyebrow" style="align-self: flex-start">Version 0.1.0 · Alpha</span>
+        <span class="badge eyebrow" style="align-self: flex-start" data-release-version
+          >Latest · Alpha</span
+        >
         <h1 style="font-size: clamp(40px, 5vw, 60px); line-height: 1.05">Download Kōbō</h1>
         <p class="lead">
           Free and open source. One app, its runtime bundled inside. Your agents run on the Claude
@@ -90,19 +93,19 @@
           <a
             class="btn btn-honey"
             style="justify-content: space-between"
-            href="https://github.com/usenoburi/kobo/releases/download/v0.1.0/Noburi_0.1.0_amd64.AppImage"
+            href="https://github.com/usenoburi/kobo/releases/latest/download/Kobo_amd64.AppImage"
             >AppImage <span style="font: 500 14px var(--mono)">x64 · 126 MB</span></a
           >
           <a
             class="btn btn-slate"
             style="justify-content: space-between"
-            href="https://github.com/usenoburi/kobo/releases/download/v0.1.0/Noburi_0.1.0_amd64.deb"
+            href="https://github.com/usenoburi/kobo/releases/latest/download/Kobo_amd64.deb"
             >.deb
             <span style="font: 500 14px var(--mono); color: var(--muted)"
               >Debian, Ubuntu · 50 MB</span
             ></a
           >
-          <a href="https://github.com/usenoburi/kobo/releases/tag/v0.1.0" style="font-size: 14px"
+          <a href="https://github.com/usenoburi/kobo/releases/latest" style="font-size: 14px"
             >Release notes and checksums</a
           >
         </div>
@@ -157,13 +160,13 @@
           <span class="eyebrow" style="color: var(--honey)">Install a Linux package</span>
           <h3 style="font-size: 19px">AppImage</h3>
           <pre class="code">
-chmod +x Noburi_0.1.0_amd64.AppImage
-./Noburi_0.1.0_amd64.AppImage</pre>
+chmod +x Kobo_amd64.AppImage
+./Kobo_amd64.AppImage</pre>
           <h3 style="font-size: 19px">.deb</h3>
-          <pre class="code">sudo apt install ./Noburi_0.1.0_amd64.deb</pre>
+          <pre class="code">sudo apt install ./Kobo_amd64.deb</pre>
           <p style="margin: 0; font-size: 14px; color: var(--muted)">
             Alpha builds are not signed yet. Download
-            <a href="https://github.com/usenoburi/kobo/releases/download/v0.1.0/SHA256SUMS"
+            <a href="https://github.com/usenoburi/kobo/releases/latest/download/SHA256SUMS"
               >SHA256SUMS</a
             >
             next to the file and check it:
@@ -187,7 +190,7 @@ pnpm install
 pnpm desktop</pre>
           </div>
           <div class="narrow" style="display: flex; flex-direction: column; gap: 14px">
-            <h2 style="font-size: 32px">In 0.1.0</h2>
+            <h2 style="font-size: 32px">In this alpha</h2>
             <ul class="list">
               <li>
                 <span
