@@ -20,6 +20,8 @@ Values in square brackets (`[sum]`, `[project-a]`) are placeholders for runtime 
 - Mark: companion face with Mint sprout and Honey shell. Sources in `assets/brand/source/`:
   - `kobo-app-icon.svg`: 1024 px master, Night rounded square background.
   - `kobo-logo-horizontal-dark-transparent.svg`: for dark surfaces (from Drive).
+  - `kobo-wordmark-{dark,light}.svg`: the wordmark alone, cropped tight; the desktop header uses a copy in
+    `apps/desktop/public/kobo-wordmark.svg`.
   - `kobo-logo-horizontal-light-transparent.svg`: derived: wordmark fill switched to Night for light surfaces.
     Tagline stays Mint; check its contrast on light backgrounds before using it on the landing.
 - Exports (PNG 16–1024, ICO, ICNS, favicons, OG) are not generated yet: `scripts/build-icons.mjs` is still to write (AC-27).

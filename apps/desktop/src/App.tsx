@@ -82,7 +82,7 @@ export function App() {
         <div className="flex items-center gap-3">
           <img src="/favicon.svg" alt="" className="size-11" />
           <div className="flex flex-col">
-            <span className="text-xl font-bold">Kōbō</span>
+            <img src="/kobo-wordmark.svg" alt="Kōbō" className="mb-1 h-[22px] w-auto self-start" />
             <button
               type="button"
               onClick={() => setPage("studio")}
